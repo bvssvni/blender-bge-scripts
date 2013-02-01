@@ -97,25 +97,57 @@ For example:
 
     follow_strict.main
 
+####AND Gate Behavior
+
 It is a good idea to write Python scripts to behave like AND gates by default.  
-This way, one can interrupt the behavior using other sensors.
-Here is an example that copies the world position of the owner of controller to the owner of actuators:
+The reason for this is that all Boolean expressions can be written in two layers.  
+A Boolean expression is a statement that is either True or False:  
+
+    a * b + c * !d
+    
+    * = AND
+    + = OR
+    ! = NOT
+    
+The first layer is the connection between sensors and controller "*".  
+The second layer is the connection between controller and actuator "+".  
+It is not possible to create actuators in Python, one has to use controllers.  
+To emulate an OR gate you can create multiple Python controllers.  
+
+####Interrupting Signals
+
+The reason for making Python scripts behave like AND gates is that "A * !B" equals "A except B".  
+This means A is interrupted by B, by setting the B sensor to 'Inverted'.  
+
+Another reason is to have a standard behavior equal for all Python scripts.  
+
+####Example
+
+Here is an example that copies the world position of the owner of controller to the owner of actuators:  
 
     import bge
 
     def main(cont)
-        own = cont.owner
-    
-        # Behave like an AND gate.
-        positive = False
+        # Behave like an AND gate for multiple sensors.
+        positive = True
         for sens in cont.sensors:
             positive = positive and sens.positive
+            
+        if not positive:
+            return
+    
+        own = cont.owner
     
         # Copy position to actuator owners.
-        if sens.positive:
-            for act in cont.actuators:
-                act.owner.worldPosition = own.worldPosition
-    
+        for act in cont.actuators:
+            act.owner.worldPosition = own.worldPosition
+            
+Notice that we use 'return' instead of putting the rest of the code in an if-block.  
+This is to save us from an extra level of indention.  
+The code is easier to read if you use 'return' statements as early as possible for interruption.  
+
+####Print To Console On Mac
+
 On Mac, start Blender from the Terminal to get the output from "print" statements.  
 Open up the 'Terminal' application and type the following:  
 
