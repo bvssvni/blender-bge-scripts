@@ -126,18 +126,18 @@ Another reason is to have a standard behavior equal for all Python scripts.
 Here is an example that copies the world position of the owner of controller to the owner of actuators:  
 
     import bge
-
-    def main(cont)
+    
+    def main(cont):
         # Behave like an AND gate for multiple sensors.
         positive = True
         for sens in cont.sensors:
             positive = positive and sens.positive
-            
+    
         if not positive:
             return
     
         own = cont.owner
-    
+        
         # Copy position to actuator owners.
         for act in cont.actuators:
             act.owner.worldPosition = own.worldPosition
@@ -145,6 +145,9 @@ Here is an example that copies the world position of the owner of controller to 
 Notice that we use 'return' instead of putting the rest of the code in an if-block.  
 This is to save us from an extra level of indention.  
 The code is easier to read if you use 'return' statements as early as possible for interruption.  
+
+Add an empty line after each if-block or for-block unless you are stacking if-blocks on top of each other.  
+This is not strictly required, but it makes the code much easier to read.  
 
 ###Game Properties
 
