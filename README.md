@@ -121,10 +121,56 @@ This means A is interrupted by B, by setting the B sensor to 'Inverted'.
 
 Another reason is to have a standard behavior equal for all Python scripts.  
 
-####Example
-
-Here is an example that copies the world position of the owner of controller to the owner of actuators:  
-
+    ####Example
+    
+    Here is an example that copies the world position of the owner of controller to the owner of actuators:  
+    
+    # follow_strict.py  0.000
+    # 
+    # 0.000
+    #
+    
+    '''
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions are met:
+    1. Redistributions of source code must retain the above copyright notice, this
+    list of conditions and the following disclaimer.
+    2. Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+    ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+    (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+    LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+    ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    The views and conclusions contained in the software and documentation are those
+    of the authors and should not be interpreted as representing official policies,
+    either expressed or implied, of the FreeBSD Project.
+    '''
+    #
+    # In:           Add Python controller to the object to follow.
+    #               Connect the objects to follow as 'dummy' actuators.
+    #               For 'dummy' one can use a 'Property' actuator without setting it up.
+    #               For repeating every update, connect 'Delay' sensor set to 'Repeat'.
+    #
+    # Out:          Copies the world position of the controller owner
+    #               to the owner of the connected actuators.
+    #
+    # Function:     Used to make camera follow objects,
+    #               by adding an Empty object and add Camera as child (Ctrl+P).
+    #               The Empty object is used as 'dummy' actuator such
+    #               that the camera follows the object without rotating with the
+    #               controller owner.
+    #               This script does not support changing of object to follow.
+    #               It allows the camera to orbit around the object by changing
+    #               the rotation relative to the Empty object it got as parent.
+    #
+    
     import bge
     
     def main(cont):
@@ -141,6 +187,8 @@ Here is an example that copies the world position of the owner of controller to 
         # Copy position to actuator owners.
         for act in cont.actuators:
             act.owner.worldPosition = own.worldPosition
+            
+
             
 Notice that we use 'return' instead of putting the rest of the code in an if-block.  
 This is to save us from an extra level of indention.  
