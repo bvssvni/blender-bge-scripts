@@ -146,7 +146,16 @@ Notice that we use 'return' instead of putting the rest of the code in an if-blo
 This is to save us from an extra level of indention.  
 The code is easier to read if you use 'return' statements as early as possible for interruption.  
 
-####Print To Console On Mac
+###Game Properties
+
+The default name for a single game property interacting with a script should be:
+
+    value
+
+For example, one common technique for HUD controls is to use a Python script or Action actuator.  
+A single value is read from the owner of the controller and used to update the graphics.  
+
+###Print To Console On Mac
 
 On Mac, start Blender from the Terminal to get the output from "print" statements.  
 Open up the 'Terminal' application and type the following:  
